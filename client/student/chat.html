@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Recruiters</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white p-4">
+        <h1 class="text-2xl font-bold">Chat with Recruiters</h1>
+    </header>
+    <main class="container mx-auto mt-8">
+        <div id="chatContainer" class="bg-white p-4 rounded shadow-md h-96 overflow-y-auto">
+            <!-- Chat messages will be dynamically inserted here -->
+        </div>
+        <form id="chatForm" class="mt-4">
+            <input type="text" id="messageInput" placeholder="Type your message..." class="border rounded w-full py-2 px-3">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Send</button>
+        </form>
+    </main>
+    <footer class="bg-gray-800 text-white p-4 mt-8 text-center">
+        <p>&copy; 2023 AI-Enhanced Social Part-Time Management System</p>
+    </footer>
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const chatForm = document.getElementById('chatForm');
+        const messageInput = document.getElementById('messageInput');
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = messageInput.value;
+
+            // Send message to the server (to be implemented)
+            const response = await fetch('/api/chat/jobId/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ senderId: 'studentId', receiverId: 'recruiterId', content: message }),
+            });
+
+            const data = await response.json();
+            alert(data.message);
+            if (response.ok) {
+                // Append message to chat container
+                const messageElement = document.createElement('div');
+                messageElement.textContent = message;
+                chatContainer.appendChild(messageElement);
+                messageInput.value = '';
+            }
+        });
+
+        // Function to load message history (to be implemented)
+    </script>
+</body>
+</html>
