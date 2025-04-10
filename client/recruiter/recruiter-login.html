@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <header class="bg-green-600 text-white p-4">
+        <h1 class="text-2xl font-bold">Recruiter Login</h1>
+    </header>
+    <main class="container mx-auto mt-8">
+        <form id="recruiterLoginForm" class="bg-white p-6 rounded shadow-md">
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700">Email:</label>
+                <input type="email" id="email" required class="border rounded w-full py-2 px-3">
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700">Password:</label>
+                <input type="password" id="password" required class="border rounded w-full py-2 px-3">
+            </div>
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Login</button>
+        </form>
+    </main>
+    <footer class="bg-gray-800 text-white p-4 mt-8 text-center">
+        <p>&copy; 2023 AI-Enhanced Social Part-Time Management System</p>
+    </footer>
+    <script>
+        document.getElementById('recruiterLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+            alert(data.message);
+            if (response.ok) {
+                // Redirect to recruiter dashboard (to be implemented)
+                window.location.href = 'recruiter-dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>
