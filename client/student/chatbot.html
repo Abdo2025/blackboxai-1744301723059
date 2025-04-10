@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot - Job Recommender</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white p-4">
+        <h1 class="text-2xl font-bold">Chatbot - Job Recommender</h1>
+    </header>
+    <main class="container mx-auto mt-8">
+        <div id="chatbotContainer" class="bg-white p-4 rounded shadow-md h-96 overflow-y-auto">
+            <!-- Chatbot messages will be dynamically inserted here -->
+        </div>
+        <form id="chatbotForm" class="mt-4">
+            <textarea id="userInput" placeholder="Type your CV or job query..." class="border rounded w-full py-2 px-3"></textarea>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Send</button>
+        </form>
+    </main>
+    <footer class="bg-gray-800 text-white p-4 mt-8 text-center">
+        <p>&copy; 2023 AI-Enhanced Social Part-Time Management System</p>
+    </footer>
+    <script>
+        const chatbotContainer = document.getElementById('chatbotContainer');
+        const chatbotForm = document.getElementById('chatbotForm');
+        const userInput = document.getElementById('userInput');
+
+        chatbotForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = userInput.value;
+
+            // Send query to the chatbot server (to be implemented)
+            const response = await fetch('/api/chatbot/interact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cvText: query }),
+            });
+
+            const data = await response.json();
+            alert(data.message);
+            if (response.ok) {
+                // Append chatbot response to chatbot container
+                const responseElement = document.createElement('div');
+                responseElement.textContent = JSON.stringify(data.recommendations, null, 2);
+                chatbotContainer.appendChild(responseElement);
+                userInput.value = '';
+            }
+        });
+
+        // Function to load previous chatbot interactions (to be implemented)
+    </script>
+</body>
+</html>
